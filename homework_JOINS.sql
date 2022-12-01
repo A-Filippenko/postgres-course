@@ -10,12 +10,11 @@ JOIN customers ON orders.customer_id = customers.customer_id
 JOIN shippers ON orders.ship_via = shippers.shipper_id
 WHERE employees.city = 'London' AND customers.city = 'London' AND shippers.company_name = 'Speedy Express'
 
-SELECT product_name, SUM(units_in_stock), contact_name, phone
+SELECT product_name, units_in_stock, contact_name, phone
 FROM products
 JOIN categories ON products.category_id = categories.category_id
 JOIN suppliers ON products.supplier_id = suppliers.supplier_id
-WHERE category_name IN ('Beverages', 'Seafood') AND units_in_stock < 20
-GROUP BY product_name, contact_name, phone
+WHERE category_name IN ('Beverages', 'Seafood') AND units_in_stock < 20 AND discontinued <> 1
 
 SELECT company_name, order_id
 FROM customers
