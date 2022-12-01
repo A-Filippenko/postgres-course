@@ -3,7 +3,7 @@
 --3. Найти заказчиков, не сделавших ни одного заказа. Вывести имя заказчика и order_id.
 --4. Переписать предыдущий запрос, использовав симметричный вид джойна (подсказка: речь о LEFT и RIGHT).
 
-SELECT customers.company_name, first_name, last_name
+SELECT customers.company_name, first_name || ' ' || last_name AS contact_name
 FROM orders
 JOIN employees ON orders.employee_id = employees.employee_id
 JOIN customers ON orders.customer_id = customers.customer_id
