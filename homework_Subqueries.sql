@@ -12,3 +12,31 @@ WHERE units_in_stock < ALL(
 	ORDER BY AVG(quantity)
 	)
 ORDER BY units_in_stock
+
+
+SELECT customer_id, SUM(freight) AS freight_sum
+FROM orders
+WHERE freight >= (SELECT AVG(freight) FROM orders)
+	AND shipped_date BETWEEN '1996-07-16' AND '1996-07-31'
+GROUP BY customer_id
+ORDER BY SUM(freight)
+
+
+SELECT customer_id, ship_country, order_price
+FROM orders
+JOIN (
+	SELECT order_id, SUM(unit_price * quantity - unit_price * quantity * discount) AS order_price
+	FROM order_details
+	GROUP BY order_id
+	) AS ops USING(order_id)
+WHERE order_date >= '1997-09-01'
+	AND ship_country IN ('Argentina' , 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 
+						'Peru', 'Suriname', 'Uruguay', 'Venezuela')
+ORDER BY order_price DESC
+LIMIT 3
+
+
+SELECT DISTINCT product_name, quantity
+FROM products
+JOIN order_details USING(product_id)
+WHERE quantity = 10
